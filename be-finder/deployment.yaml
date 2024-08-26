@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-finder
+  namespace: hirehub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-finder
+  template:
+    metadata:
+      labels:
+        app: be-finder
+    spec:
+      containers:
+        - name: be-finder
+          image: eugenepulup228/be-finder:latest # You'll need to build and push this image
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RABBITMQ_URI
+              value: "amqp://rabbitmq:5672"

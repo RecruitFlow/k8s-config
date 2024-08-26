@@ -1,0 +1,26 @@
+# Dashboard Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: be-gateway
+  namespace: hirehub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: be-gateway
+  template:
+    metadata:
+      labels:
+        app: be-gateway
+    spec:
+      containers:
+        - name: be-gateway
+          image: eugenepulup228/be-gateway:latest # You'll need to build and push this image
+          ports:
+            - containerPort: 3000
+          env:
+            - name: RABBITMQ_URI
+              value: "amqp://rabbitmq:5672"
+            - name: DATABASE_URL
+              value: "postgresql://googieUser:googiePass@postgres:5432/googieDB?schema=public"

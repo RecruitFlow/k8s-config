@@ -1,0 +1,24 @@
+# Dashboard Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dashboard
+  namespace: hirehub
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dashboard
+  template:
+    metadata:
+      labels:
+        app: dashboard
+    spec:
+      containers:
+        - name: dashboard
+          image: eugenepulup228/dashboard:latest # You'll need to build and push this image
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GQL_HOST
+              value: "http://gateway.hirehub.loc/graphql"
